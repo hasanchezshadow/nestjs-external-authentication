@@ -5,9 +5,11 @@ import {
   UseGuards,
   Redirect,
   Req,
+  Request,
 } from '@nestjs/common';
 import { AppService } from './app.service';
 import { AuthGuard } from '@nestjs/passport';
+import { GoogleOAuthGuard } from './guards/auth/google-oauth.guard';
 
 @Controller()
 export class AppController {
@@ -40,11 +42,8 @@ export class AppController {
   }
 
   @Get('/google/redirect')
-  @UseGuards(AuthGuard('google'))
-  @Redirect('', 302)
-  async googleLoginRedirect(@Req() req: Request): Promise<any> {
-    const { user } = req;
-    // todo save the user data in the database and returns the redirection url
-    return { url: `${this.FRONT_URL}}` };
+  @UseGuards(GoogleOAuthGuard)
+  googleLoginRedirect(@Request() req: Request) {
+    return this.appService.googleLogin(req);
   }
 }

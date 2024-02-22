@@ -18,7 +18,7 @@ export class FacebookStrategy extends PassportStrategy(Strategy, 'facebook') {
     accessToken: string,
     refreshToken: string,
     profile: Profile,
-    done: (err: SyntaxError, user: any, info: any) => void,
+    done: (err: SyntaxError, user: any, info?: any) => void,
   ) {
     const { name, emails } = profile;
     const user = {
